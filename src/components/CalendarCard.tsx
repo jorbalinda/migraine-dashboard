@@ -112,17 +112,6 @@ export default function CalendarCard({
                 }`}
               >
                 {day}
-                {/* Dot indicators */}
-                {!isSelected && (hasHeadache || hasCycle) && (
-                  <span className="absolute bottom-0.5 flex gap-0.5">
-                    {hasHeadache && (
-                      <span className="w-1 h-1 rounded-full bg-red-400" />
-                    )}
-                    {hasCycle && (
-                      <span className="w-1 h-1 rounded-full bg-indigo-400" />
-                    )}
-                  </span>
-                )}
               </button>
             )
           })}
