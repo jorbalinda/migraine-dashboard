@@ -12,32 +12,33 @@ export default function HeadacheCard({
   onIntensityChange,
 }: HeadacheCardProps) {
   return (
-    <div className="bg-[#FFF0F5] rounded-[2rem] p-8 shadow-sm">
-      <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-6">
-        Headache Today?
-      </h2>
-
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={() => onHeadacheChange(true)}
-          className={`flex-1 py-4 rounded-2xl text-lg font-bold transition-all cursor-pointer ${
-            headache
-              ? 'bg-red-400 text-white shadow-lg scale-[1.02]'
-              : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-md'
-          }`}
-        >
-          Yes
-        </button>
-        <button
-          onClick={() => onHeadacheChange(false)}
-          className={`flex-1 py-4 rounded-2xl text-lg font-bold transition-all cursor-pointer ${
-            !headache
-              ? 'bg-green-400 text-white shadow-lg scale-[1.02]'
-              : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-md'
-          }`}
-        >
-          No
-        </button>
+    <div className="bg-[#FFF0F5] rounded-[2rem] p-6 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider">
+          Headache Today?
+        </h2>
+        <div className="flex gap-2">
+          <button
+            onClick={() => onHeadacheChange(true)}
+            className={`px-5 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+              headache
+                ? 'bg-red-400 text-white shadow-md'
+                : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-sm'
+            }`}
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => onHeadacheChange(false)}
+            className={`px-5 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+              !headache
+                ? 'bg-green-400 text-white shadow-md'
+                : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-sm'
+            }`}
+          >
+            No
+          </button>
+        </div>
       </div>
 
       {headache && (
