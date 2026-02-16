@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 
 export interface DailyEntry {
@@ -43,10 +43,12 @@ const defaultEntry = (date: string): DailyEntry => ({
 export function useDailyEntry(date: string) {
   const [entry, setEntry] = useState<DailyEntry>(defaultEntry(date))
   const [loading, setLoading] = useState(true)
-  const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     setLoading(true)
+    setSaved(false)
     supabase
       .from('daily_entries')
       .select('*')
@@ -58,33 +60,23 @@ export function useDailyEntry(date: string) {
       })
   }, [date])
 
-  const [saved, setSaved] = useState(false)
-
-  const saveToSupabaseWithStatus = useCallback(
-    (updated: DailyEntry) => {
-      if (saveTimeout.current) clearTimeout(saveTimeout.current)
-      setSaved(false)
-      saveTimeout.current = setTimeout(async () => {
-        const { id, ...rest } = updated
-        await supabase
-          .from('daily_entries')
-          .upsert({ ...rest, date }, { onConflict: 'date' })
-        setSaved(true)
-      }, 500)
-    },
-    [date]
-  )
-
-  const updateFieldWithStatus = useCallback(
+  const updateField = useCallback(
     <K extends keyof DailyEntry>(field: K, value: DailyEntry[K]) => {
-      setEntry((prev) => {
-        const updated = { ...prev, [field]: value }
-        saveToSupabaseWithStatus(updated)
-        return updated
-      })
+      setSaved(false)
+      setEntry((prev) => ({ ...prev, [field]: value }))
     },
-    [saveToSupabaseWithStatus]
+    []
   )
 
-  return { entry, loading, saved, updateField: updateFieldWithStatus }
+  const save = useCallback(async () => {
+    setSaving(true)
+    const { id, ...rest } = entry
+    await supabase
+      .from('daily_entries')
+      .upsert({ ...rest, date }, { onConflict: 'date' })
+    setSaved(true)
+    setSaving(false)
+  }, [entry, date])
+
+  return { entry, loading, saved, saving, updateField, save }
 }

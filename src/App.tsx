@@ -22,7 +22,7 @@ function todayString() {
 function App() {
   const [selectedDate, setSelectedDate] = useState(todayString())
   const [currentPage, setCurrentPage] = useState<Page>('dashboard')
-  const { entry, loading, saved, updateField } = useDailyEntry(selectedDate)
+  const { entry, loading, saved, saving, updateField, save } = useDailyEntry(selectedDate)
   const { entries: allEntries, loading: allLoading } = useAllEntries()
 
   if (loading || allLoading) {
@@ -111,16 +111,20 @@ function App() {
               </div>
             </div>
 
-            <div className="flex justify-center py-4">
+            <div className="flex justify-center py-6">
               {saved ? (
-                <div className="flex items-center gap-2 bg-green-50/80 text-green-700 px-6 py-3 rounded-full text-sm font-semibold shadow-sm">
+                <div className="flex items-center gap-2 bg-green-50/80 text-green-700 px-8 py-3 rounded-full text-sm font-semibold shadow-sm">
                   <CheckCircle2 size={18} />
-                  Today's data has been saved
+                  Data saved successfully
                 </div>
               ) : (
-                <div className="text-[#4a4a4a]/40 text-sm">
-                  Changes auto-save as you go
-                </div>
+                <button
+                  onClick={save}
+                  disabled={saving}
+                  className="px-10 py-3.5 rounded-2xl text-base font-bold text-white bg-[#a1c4fd] hover:bg-[#89b4f8] active:scale-95 shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {saving ? 'Saving...' : 'Log Day'}
+                </button>
               )}
             </div>
           </div>
