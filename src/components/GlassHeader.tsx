@@ -37,7 +37,7 @@ export default function GlassHeader({
             type="date"
             value={selectedDate}
             onChange={(e) => onDateChange(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-white/60 text-sm text-[#4a4a4a] bg-white/50 focus:outline-none focus:ring-2 focus:ring-[#a1c4fd]/50"
+            className="px-5 py-2.5 rounded-2xl border-2 border-[#a1c4fd]/40 text-sm font-semibold text-[#4a4a4a] bg-white/70 cursor-pointer shadow-sm hover:bg-white hover:border-[#a1c4fd]/70 hover:shadow-md active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-[#a1c4fd]/50"
           />
         )}
 
