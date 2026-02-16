@@ -66,6 +66,8 @@ function App() {
                   cycleDay={entry.cycle_day}
                   onCycleDayChange={(v) => updateField('cycle_day', v)}
                   selectedDate={selectedDate}
+                  onDateChange={setSelectedDate}
+                  allEntries={allEntries}
                 />
                 <SleepCard
                   sleepTime={entry.sleep_time}
