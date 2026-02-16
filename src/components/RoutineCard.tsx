@@ -3,15 +3,19 @@ import { CheckCircle2, Circle } from 'lucide-react'
 interface RoutineCardProps {
   read: boolean
   meditate: boolean
+  bath: boolean
   onReadChange: (val: boolean) => void
   onMeditateChange: (val: boolean) => void
+  onBathChange: (val: boolean) => void
 }
 
 export default function RoutineCard({
   read,
   meditate,
+  bath,
   onReadChange,
   onMeditateChange,
+  onBathChange,
 }: RoutineCardProps) {
   return (
     <div className="bg-[#FFFFEE] rounded-[2rem] p-6 shadow-sm">
@@ -43,6 +47,19 @@ export default function RoutineCard({
           )}
           <span className={meditate ? 'line-through text-slate-400' : ''}>
             Meditate
+          </span>
+        </button>
+        <button
+          onClick={() => onBathChange(!bath)}
+          className="flex items-center gap-3 text-sm text-slate-600 hover:text-slate-800 transition-colors"
+        >
+          {bath ? (
+            <CheckCircle2 size={20} className="text-green-500" />
+          ) : (
+            <Circle size={20} className="text-purple-300" />
+          )}
+          <span className={bath ? 'line-through text-slate-400' : ''}>
+            Bath
           </span>
         </button>
       </div>

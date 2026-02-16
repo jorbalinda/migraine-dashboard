@@ -9,7 +9,6 @@ export interface DailyEntry {
   cycle_day: number | null
   mental_stress: number
   physical_stress: number
-  is_competing: boolean
   sleep_time: string
   wake_time: string
   sleep_score: number
@@ -19,6 +18,7 @@ export interface DailyEntry {
   screen_time: number
   routine_read: boolean
   routine_meditate: boolean
+  routine_bath: boolean
 }
 
 const defaultEntry = (date: string): DailyEntry => ({
@@ -28,7 +28,6 @@ const defaultEntry = (date: string): DailyEntry => ({
   cycle_day: null,
   mental_stress: 1,
   physical_stress: 1,
-  is_competing: false,
   sleep_time: '',
   wake_time: '',
   sleep_score: 5,
@@ -38,6 +37,7 @@ const defaultEntry = (date: string): DailyEntry => ({
   screen_time: 0,
   routine_read: false,
   routine_meditate: false,
+  routine_bath: false,
 })
 
 export function useDailyEntry(date: string) {
@@ -58,29 +58,33 @@ export function useDailyEntry(date: string) {
       })
   }, [date])
 
-  const saveToSupabase = useCallback(
+  const [saved, setSaved] = useState(false)
+
+  const saveToSupabaseWithStatus = useCallback(
     (updated: DailyEntry) => {
       if (saveTimeout.current) clearTimeout(saveTimeout.current)
+      setSaved(false)
       saveTimeout.current = setTimeout(async () => {
         const { id, ...rest } = updated
         await supabase
           .from('daily_entries')
           .upsert({ ...rest, date }, { onConflict: 'date' })
+        setSaved(true)
       }, 500)
     },
     [date]
   )
 
-  const updateField = useCallback(
+  const updateFieldWithStatus = useCallback(
     <K extends keyof DailyEntry>(field: K, value: DailyEntry[K]) => {
       setEntry((prev) => {
         const updated = { ...prev, [field]: value }
-        saveToSupabase(updated)
+        saveToSupabaseWithStatus(updated)
         return updated
       })
     },
-    [saveToSupabase]
+    [saveToSupabaseWithStatus]
   )
 
-  return { entry, loading, updateField }
+  return { entry, loading, saved, updateField: updateFieldWithStatus }
 }

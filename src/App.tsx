@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CheckCircle2 } from 'lucide-react'
 import { useDailyEntry } from './hooks/useDailyEntry'
 import Sidebar from './components/Sidebar'
 import HeadacheCard from './components/HeadacheCard'
@@ -8,7 +9,6 @@ import StressCard from './components/StressCard'
 import WorkoutCard from './components/WorkoutCard'
 import ScreenTimeCard from './components/ScreenTimeCard'
 import RoutineCard from './components/RoutineCard'
-import CompetingCard from './components/CompetingCard'
 
 function todayString() {
   const d = new Date()
@@ -17,7 +17,7 @@ function todayString() {
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(todayString())
-  const { entry, loading, updateField } = useDailyEntry(selectedDate)
+  const { entry, loading, saved, updateField } = useDailyEntry(selectedDate)
 
   if (loading) {
     return (
@@ -83,20 +83,30 @@ function App() {
                   screenTime={entry.screen_time}
                   onScreenTimeChange={(v) => updateField('screen_time', v)}
                 />
-                <div className="flex flex-col gap-6">
-                  <CompetingCard
-                    isCompeting={entry.is_competing}
-                    onCompetingChange={(v) => updateField('is_competing', v)}
-                  />
-                  <RoutineCard
-                    read={entry.routine_read}
-                    meditate={entry.routine_meditate}
-                    onReadChange={(v) => updateField('routine_read', v)}
-                    onMeditateChange={(v) => updateField('routine_meditate', v)}
-                  />
-                </div>
+                <RoutineCard
+                  read={entry.routine_read}
+                  meditate={entry.routine_meditate}
+                  bath={entry.routine_bath}
+                  onReadChange={(v) => updateField('routine_read', v)}
+                  onMeditateChange={(v) => updateField('routine_meditate', v)}
+                  onBathChange={(v) => updateField('routine_bath', v)}
+                />
               </div>
             </div>
+          </div>
+
+          {/* Saved Indicator */}
+          <div className="flex justify-center py-4">
+            {saved ? (
+              <div className="flex items-center gap-2 bg-green-50 text-green-700 px-6 py-3 rounded-full text-sm font-semibold shadow-sm">
+                <CheckCircle2 size={18} />
+                Today's data has been saved
+              </div>
+            ) : (
+              <div className="text-slate-400 text-sm">
+                Changes auto-save as you go
+              </div>
+            )}
           </div>
         </div>
       </div>

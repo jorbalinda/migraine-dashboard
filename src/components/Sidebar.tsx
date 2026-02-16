@@ -1,4 +1,4 @@
-import { Home, TrendingUp, Users, FileText } from 'lucide-react'
+import { Home, TrendingUp, FileText } from 'lucide-react'
 
 interface SidebarProps {
   selectedDate: string
@@ -27,9 +27,6 @@ export default function Sidebar({ selectedDate, onDateChange }: SidebarProps) {
         </button>
         <button className="flex items-center gap-4 hover:text-slate-800 cursor-not-allowed opacity-50">
           <TrendingUp size={20} /> Trends
-        </button>
-        <button className="flex items-center gap-4 hover:text-slate-800 cursor-not-allowed opacity-50">
-          <Users size={20} /> Friends
         </button>
         <button className="flex items-center gap-4 hover:text-slate-800 cursor-not-allowed opacity-50">
           <FileText size={20} /> Reports
