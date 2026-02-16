@@ -12,25 +12,39 @@ export default function HeadacheCard({
   onIntensityChange,
 }: HeadacheCardProps) {
   return (
-    <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-50">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider">
-          Headache
-        </h2>
+    <div className="bg-[#FFF0F5] rounded-[2rem] p-8 shadow-sm">
+      <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider mb-6">
+        Headache Today?
+      </h2>
+
+      <div className="flex gap-4 mb-6">
         <button
-          onClick={() => onHeadacheChange(!headache)}
-          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+          onClick={() => onHeadacheChange(true)}
+          className={`flex-1 py-4 rounded-2xl text-lg font-bold transition-all cursor-pointer ${
             headache
-              ? 'bg-red-100 text-red-700'
-              : 'bg-slate-100 text-slate-500'
+              ? 'bg-red-400 text-white shadow-lg scale-[1.02]'
+              : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-md'
           }`}
         >
-          {headache ? 'Yes' : 'No'}
+          Yes
+        </button>
+        <button
+          onClick={() => onHeadacheChange(false)}
+          className={`flex-1 py-4 rounded-2xl text-lg font-bold transition-all cursor-pointer ${
+            !headache
+              ? 'bg-green-400 text-white shadow-lg scale-[1.02]'
+              : 'bg-white/70 text-slate-400 hover:bg-white hover:shadow-md'
+          }`}
+        >
+          No
         </button>
       </div>
 
       {headache && (
-        <div className="px-2">
+        <div className="bg-white rounded-2xl p-6">
+          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+            Intensity Level
+          </h3>
           <div className="flex justify-between text-xs text-slate-400 mb-2 px-1">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
               <span
