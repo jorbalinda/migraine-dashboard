@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import { useDailyEntry } from './hooks/useDailyEntry'
 import { useAllEntries } from './hooks/useAllEntries'
-import Sidebar from './components/Sidebar'
-import type { Page } from './components/Sidebar'
+import GlassHeader from './components/GlassHeader'
+import type { Page } from './components/GlassHeader'
 import HeadacheCard from './components/HeadacheCard'
 import CalendarCard from './components/CalendarCard'
 import SleepCard from './components/SleepCard'
@@ -27,26 +27,32 @@ function App() {
 
   if (loading || allLoading) {
     return (
-      <div className="min-h-screen bg-[#FFFDFB] flex items-center justify-center">
-        <div className="text-slate-400 text-lg">Loading...</div>
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: 'linear-gradient(135deg, #fff3ed 0%, #e2ebf0 100%)' }}
+      >
+        <div className="text-[#4a4a4a]/50 text-lg">Loading...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#FFFDFB] p-6 lg:p-8 font-sans text-slate-700">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-        {/* Sidebar */}
-        <Sidebar
-          selectedDate={selectedDate}
-          onDateChange={setSelectedDate}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
+    <div
+      className="min-h-screen p-6 lg:p-10 font-sans text-[#4a4a4a] flex flex-col items-center gap-8"
+      style={{ background: 'linear-gradient(135deg, #fff3ed 0%, #e2ebf0 100%)' }}
+    >
+      {/* Glass Header */}
+      <GlassHeader
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+      />
 
-        {/* Page Content */}
+      {/* Page Content */}
+      <div className="w-full max-w-6xl">
         {currentPage === 'dashboard' && (
-          <div className="flex-1 flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             <HeadacheCard
               headache={entry.headache}
               intensity={entry.headache_intensity}
@@ -105,12 +111,12 @@ function App() {
 
             <div className="flex justify-center py-4">
               {saved ? (
-                <div className="flex items-center gap-2 bg-green-50 text-green-700 px-6 py-3 rounded-full text-sm font-semibold shadow-sm">
+                <div className="flex items-center gap-2 bg-green-50/80 text-green-700 px-6 py-3 rounded-full text-sm font-semibold shadow-sm">
                   <CheckCircle2 size={18} />
                   Today's data has been saved
                 </div>
               ) : (
-                <div className="text-slate-400 text-sm">
+                <div className="text-[#4a4a4a]/40 text-sm">
                   Changes auto-save as you go
                 </div>
               )}
